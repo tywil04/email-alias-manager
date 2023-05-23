@@ -1,0 +1,265 @@
+:root {
+    --font: 'Segoe UI', sans-serif;
+    --font-size: 0.95rem;
+
+    --paddingX: 8px;
+    --paddingY: 4px;
+
+    --navBackgroundColour: rgb(19, 19, 24);;
+    --backgroundColour: rgb(28, 27, 34);
+
+    --primaryColour: rgb(27, 122, 218);
+    --primaryTextColour: rgb(205, 205, 210);
+
+    --deleteColour: firebrick;
+
+    --inputBackgroundColour: rgb(36, 35, 44);
+    --inputBorderColour: rgb(56, 55, 65);
+    --inputTextColour: white;
+    --inputDisabledTextColour: lightgray;
+
+    --disabledTextColour: crimson;
+
+    --borderRadius: 6px;
+
+    --animationDuration: 100ms;
+}
+
+* {
+    font-size: var(--font-size);
+    text-rendering: optimizeLegibility;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font);
+    background-color: var(--backgroundColour);
+    color: var(--primaryTextColour);
+    font-weight: 500;
+    overflow: none;
+}
+
+main {
+    position: absolute;
+    top: 68px;
+    height: calc(100% - 80px - 68px);
+    width: calc(100% - 80px);
+    padding: 40px;
+    background-color: var(--backgroundColour);
+    overflow: auto;
+}
+
+h1 {
+    margin-left: 1px;
+    margin-bottom: 4px;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    background-color: var(--navBackgroundColour);
+    border-bottom: 1px solid var(--inputBackgroundColour);
+    width: 100%;
+}
+
+nav div.inner b {
+    line-height: 26px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    font-size: medium;
+}
+
+nav div.inner {
+    padding: 20px 40px 20px 40px;
+    flex-grow: 1;
+}
+
+button {
+    background-color: var(--inputBackgroundColour);
+    color: var(--inputTextColour);
+    border: 1px solid var(--inputBorderColour);
+    border-radius: var(--borderRadius);
+    padding: var(--paddingY) var(--paddingX);
+    cursor: pointer;
+    transition-duration: var(--animationDuration);
+    width: fit-content;
+}
+
+a {
+    color: var(--primaryColour);
+    line-height: 26px;
+}
+
+button:hover:not(:active), a:hover:not(:active) {
+    filter: brightness(0.9);
+}
+
+button.primary {
+    background-color: var(--primaryColour);
+    color: var(--inputTextColour);
+    border: 1px solid var(--primaryColour);
+}
+
+button.delete {
+    background-color: var(--deleteColour);
+    color: var(--inputTextColour);
+    border: 1px solid var(--deleteColour);
+}
+
+input, select, .inputGroup > * {
+    background-color: var(--inputBackgroundColour);
+    color: var(--inputTextColour);
+    border: 1px solid var(--inputBorderColour);
+    border-radius: var(--borderRadius);
+    padding: var(--paddingY) var(--paddingX);;
+    outline: none !important;
+    width: fit-content;
+}
+
+div.alias span {
+    font-size: medium;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+div.alias {
+    display: flex;
+    flex-direction: row;
+    padding: calc(var(--paddingY) * 2) var(--paddingX) calc(var(--paddingY) * 2) calc(var(--paddingX) * 2);
+    user-select: none;
+    width: calc(100% - calc(var(--paddingX) * 3));
+    flex-grow: 1;
+    cursor: pointer;
+    border-left: 1px solid var(--inputBorderColour);
+    border-right: 1px solid var(--inputBorderColour)
+}
+
+div.alias:first-child {
+    border-top: 1px solid var(--inputBorderColour);
+    border-top-left-radius: var(--borderRadius);
+    border-top-right-radius: var(--borderRadius);
+}
+
+div.alias:last-child {
+    border-bottom: 1px solid var(--inputBorderColour);
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+}
+
+div.alias div {
+    opacity: 0%;
+    margin-left: auto;
+    transition-duration: 100ms;
+}
+
+div.alias:hover div {
+    opacity: 100%;
+}
+
+div.alias div button {
+    border-radius: calc(calc(var(--borderRadius) / 2) + 1px);
+}
+
+div.alias:nth-child(odd) {
+    background-color: var(--inputBackgroundColour);
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.spaceX {
+    margin-right: var(--paddingX);
+}
+
+.spaceY {
+    margin-bottom: var(--paddingY);
+}
+
+.mediumSpaceX {
+    margin-right: calc(var(--paddingX) * 2);
+}
+
+.mediumSpaceY {
+    margin-bottom: calc(var(--paddingY) * 2);
+}
+
+.largeSpaceY {
+    margin-bottom: calc(var(--paddingY) * 5);
+}
+
+.largeSpaceX {
+    margin-right: calc(var(--paddingX) * 5);
+}
+
+.marginLeftAuto {
+    margin-left: auto;
+}
+
+.marginRightAuto {
+    margin-right: auto;
+}
+
+.deleteForm {
+    display: inline;
+}
+
+.disabledAlias {
+    filter: brightness(0.65);
+    font-style: italic;
+}
+
+i {
+    filter: brightness(0.65);
+    font-style: italic;
+    font-weight: 400;
+}
+
+label.switch {
+    height: 18px;
+    width: 34px;
+    display: inline-block;
+    background-color: var(--inputBackgroundColour);
+    border: 1px solid var(--inputBorderColour);
+    border-radius: 26px;
+}
+
+label.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+label.switch:has(> input:checked) {
+    background-color: var(--primaryColour);
+    border: 1px solid var(--primaryColour)
+}
+
+label.switch::before {
+    display: inline-block;
+    content: "";
+    height: 12px;
+    width: 12px;
+    margin: 3px;
+    background-color: whitesmoke;
+    border-radius: 50%;
+}
+
+label.switch:has(> input:checked)::before {
+    transform: translateX(16px);
+}
+
+.switchLabel {
+    height: 18px;
+    line-height: 18px;
+    font-weight: 400;
+}

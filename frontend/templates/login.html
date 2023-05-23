@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="/static/css/shared.css"/>
+        <script type="module" src="/static/js/pages/login.js"></script>
+        
+        <title>Login - Email Aliases</title>
+    </head>
+    <body>
+        <main class="flexColumn">
+            <div class="largeSpaceY"></div>
+            <form class="marginLeftAuto marginRightAuto flexColumn" id="form">
+                <h1>Login</h1>
+                <div class="flexColumn largeSpaceY">
+                    <input class="mediumSpaceY" type="text" name="username" placeholder="Username"/>
+                    <input class="mediumSpaceY" type="password" name="password" placeholder="Password"/>
+                    <div class="flexRow">
+                        <button class="primary mediumSpaceX" type="submit">Login</button>
+                        <a href="/setup">Goto Setup</a>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </body>
+</html>
