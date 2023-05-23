@@ -25,8 +25,11 @@ func Frontend() {
 
 	// register frontend routes
 	http.HandleFunc("/login", middleware.UnauthMiddleware(templating.HTMLTemplate("login.html", templateSub)))
+
 	http.HandleFunc("/setup", middleware.UnauthMiddleware(templating.HTMLTemplate("setup.html", templateSub)))
+
 	http.HandleFunc("/home", middleware.AuthMiddleware(templating.HTMLTemplate("home.html", templateSub)))
+
 	http.HandleFunc("/", redirect.Redirect("/home"))
 
 	// serve static css, js and assets

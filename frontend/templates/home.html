@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="icon" href="/static/assets/favicon.png"/>
         <link rel="stylesheet" href="/static/css/shared.css"/>
         <script type="module" src="/static/js/pages/home.js"></script>
         
@@ -25,18 +26,26 @@
                 <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
                 <input class="spaceX" name="serviceName" type="text" placeholder="Service Name"/>
                 <select class="spaceX" name="domainId">
-                    {{range $domain := .AuthedUser.Domains}}
-                        {{if not $domain.Disabled}}
-                            <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
-                        {{end}}
-                    {{end}}
+                {{- range $domain := .AuthedUser.Domains}}
+                    {{- if not $domain.Disabled}}
+                        <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
+                    {{end -}}
+                {{end}}
                 </select>
                 <button class="primary" type="submit">Create & Copy Alias</button>
             </form>
 
             <h1>Add an Existing Alias</h1>
             <form class="flexRow largeSpaceY" id="existingAliasForm" method="POST">
-                <input class="spaceX" name="alias" type="email" placeholder="Existing Alias"/>
+                <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
+                <input class="spaceX" name="alias" type="text" placeholder="Existing Alias"/>
+                <select class="spaceX" name="domainId">
+                    {{- range $domain := .AuthedUser.Domains}}
+                        {{- if not $domain.Disabled}}
+                            <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
+                        {{end -}}
+                    {{end}}
+                </select>
                 <button class="primary" type="submit">Add Existing Alias</button>
             </form>
 
@@ -46,7 +55,7 @@
                 <button class="primary" type="submit">Add New Domain</button>
             </form>
 
-            {{$queryData := .QueryData}}
+            {{- $queryData := .QueryData}}
             
             <h1>Aliases</h1>
             <div class="flexRow mediumSpaceY">
@@ -56,37 +65,38 @@
                 </label>
             </div>
 
-            {{$aliases := .AuthedUser.Aliases}}
+            {{- $aliases := .AuthedUser.Aliases -}}
+            {{- $domains := .AuthedUser.Domains -}}
 
-            {{$activeAliases := 0}}
-            {{range $alias := $aliases}}
-                {{if not $alias.Disabled}}
-                    {{$activeAliases = Add $activeAliases 1}}
-                {{end}}
-            {{end}}
+            {{- $activeAliases := 0 -}}
+            {{- range $alias := $aliases -}}
+                {{- if not $alias.Disabled -}}
+                    {{- $activeAliases = Add $activeAliases 1 -}}
+                {{- end -}}
+            {{- end -}}
 
-            {{$activeDomains := 0}}
-            {{range $domain := .AuthedUser.Domains}}
-                {{if not $domain.Disabled}}
-                    {{$activeDomains = Add $activeDomains 1}}
-                {{end}}
-            {{end}}
+            {{- $activeDomains := 0 -}}
+            {{- range $domain := $domains -}}
+                {{- if not $domain.Disabled -}}
+                    {{- $activeDomains = Add $activeDomains 1 -}}
+                {{- end -}}
+            {{- end -}}
 
             {{if and (eq $activeAliases 0) (not (and (KeyExistsInQueryOrPostData $queryData "showDisabledAliases") (gt (len $aliases) 0)))}}
-                <div class="flexColumn largeSpaceY">
-                    <i>No aliases created yet</i>
-                </div>
+            <div class="flexColumn largeSpaceY">
+                <i>No aliases created yet</i>
+            </div>
             {{end}}
 
-            {{range $domain := .AuthedUser.Domains}}
-                <div class="flexColumn largeSpaceY">
-                    {{if or (gt $activeAliases 0) (KeyExistsInQueryOrPostData $queryData "showDisabledAliases")}}
-                        {{range $alias := $aliases}}
-                            {{if eq $alias.Domain.ID $domain.ID}}
-                                {{if not $alias.Disabled}}
+            {{- range $domain := $domains -}}
+                <div class="flexColumn largeSpaceY noHeightIfEmpty">
+                    {{- if or (gt $activeAliases 0) (KeyExistsInQueryOrPostData $queryData "showDisabledAliases") -}}
+                        {{- range $alias := $aliases -}}
+                            {{- if eq $alias.Domain.ID $domain.ID -}}
+                                {{- if not $alias.Disabled -}}
                                     <div class="alias">
-                                        {{if $alias.IconPresent}}
-                                            <img width="20" height="20" class="spaceX" src="data:{{$alias.IconMimeType}};base64,{{Base64 $alias.IconData}}"/>
+                                        {{- if $alias.IconPresent -}}
+                                            <img width="20" height="20" class="spaceX aliasImage" src="data:{{$alias.IconMimeType}};base64,{{Base64 $alias.IconData}}"/>
                                         {{end}}
                                         
                                         <span>{{$alias.Alias}}@{{$alias.Domain.Domain}}</span>
@@ -99,16 +109,16 @@
                                             <button class="primary" type="button" onclick="navigator.clipboard.writeText('{{$alias.Alias}}@{{$alias.Domain.Domain}}')">Copy</button>
                                         </div>
                                     </div>
-                                {{end}} 
-                            {{end}}       
-                        {{end}}
+                                {{- end -}}   
+                            {{- end -}}   
+                        {{- end -}}
 
-                        {{range $alias := $aliases}}
-                            {{if eq $alias.Domain.ID $domain.ID}}
-                                {{if and (KeyExistsInQueryOrPostData $queryData "showDisabledAliases") $alias.Disabled}}
+                        {{- range $alias := $aliases -}}
+                            {{- if eq $alias.Domain.ID $domain.ID -}}
+                                {{- if and (KeyExistsInQueryOrPostData $queryData "showDisabledAliases") $alias.Disabled -}}
                                     <div class="alias">
-                                        {{if $alias.IconPresent}}
-                                            <img width="20" height="20" class="spaceX" src="data:{{$alias.IconMimeType}};base64,{{Base64 $alias.IconData}}"/>
+                                        {{- if $alias.IconPresent -}}
+                                            <img width="20" height="20" class="spaceX aliasImage" src="data:{{$alias.IconMimeType}};base64,{{Base64 $alias.IconData}}"/>
                                         {{end}}
                                         
                                         <span class="disabledAlias">{{$alias.Alias}}@{{$alias.Domain.Domain}}</span>
@@ -121,12 +131,12 @@
                                             <button class="primary" type="button" onclick="navigator.clipboard.writeText('{{$alias.Alias}}@{{$alias.Domain.Domain}}')">Copy</button>
                                         </div>
                                     </div>
-                                {{end}}   
-                            {{end}}     
-                        {{end}}
-                    {{end}}
+                                {{- end -}}   
+                            {{- end -}}   
+                        {{- end -}}
+                    {{- end -}}
                 </div>
-            {{end}}
+            {{- end}}
 
             <h1>Domains</h1>
             <div class="flexRow mediumSpaceY">
@@ -137,9 +147,13 @@
             </div>
 
             <div class="flexColumn">
-                {{if or (gt $activeDomains 0) (KeyExistsInQueryOrPostData $queryData "showDisabledDomains")}}
-                    {{range $domain := .AuthedUser.Domains}}
-                        {{if not $domain.Disabled}}
+                {{- if and (eq $activeDomains 0) (not (and (KeyExistsInQueryOrPostData $queryData "showDisabledDomains") (gt (len $domains) 0))) -}}
+                    <i>No domains created yet</i>
+                {{- end -}}
+
+                {{- if or (gt $activeDomains 0) (KeyExistsInQueryOrPostData $queryData "showDisabledDomains") -}}
+                    {{- range $domain := $domains -}}
+                        {{- if not $domain.Disabled -}}
                             <div class="alias">
                                 <span>{{$domain.Domain}}</span>
                                 
@@ -151,11 +165,11 @@
                                     <button class="primary" type="button" onclick="navigator.clipboard.writeText('{{$domain.Domain}}')">Copy</button>
                                 </div>
                             </div>
-                        {{end}}
-                    {{end}}
+                        {{- end -}}
+                    {{- end -}}
 
-                    {{range $domain := .AuthedUser.Domains}}
-                        {{if and (KeyExistsInQueryOrPostData $queryData "showDisabledDomains") $domain.Disabled}}
+                    {{- range $domain := $domains -}}
+                        {{- if and (KeyExistsInQueryOrPostData $queryData "showDisabledDomains") $domain.Disabled -}}
                             <div class="alias">
                                 <span class="disabledAlias">{{$domain.Domain}}</span>
                                 
@@ -167,11 +181,9 @@
                                     <button class="primary" type="button" onclick="navigator.clipboard.writeText('{{$domain.Domain}}')">Copy</button>
                                 </div>
                             </div>
-                        {{end}}
-                    {{end}}
-                {{else}}
-                    <i>No domains created yet</i>
-                {{end}}
+                        {{- end -}}
+                    {{- end -}}
+                {{- end -}}
             </div>
         </main>
     </body>

@@ -263,3 +263,12 @@ label.switch:has(> input:checked)::before {
     line-height: 18px;
     font-weight: 400;
 }
+
+.noHeightIfEmpty:empty {
+    height: 0px !important;
+    margin: 0px !important;
+}
+
+.aliasImage {
+    margin-top: 3px;
+}

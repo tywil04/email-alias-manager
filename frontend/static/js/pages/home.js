@@ -49,8 +49,12 @@ async function existingAliasFormSubmit(event, form) {
 
     const formData = new FormData(form)
     const alias = formData.get("alias")
+    const iconUrl = formData.get("iconUrl")
+    const domainIdAndDomain = formData.get("domainId")
+    const domainParts = domainIdAndDomain.split("//")
+    const domainId = domainParts[0]
 
-    const payload = JSON.stringify({alias: alias})
+    const payload = JSON.stringify({domainId: domainId, alias: alias, iconUrl: iconUrl})
 
     const response = await fetch("/api/v1/user/aliases", {
         method: "POST",
