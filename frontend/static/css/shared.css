@@ -271,4 +271,5 @@ label.switch:has(> input:checked)::before {
 
 .aliasImage {
     margin-top: 3px;
+    border-radius: 100%;
 }

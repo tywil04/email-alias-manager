@@ -26,11 +26,11 @@
                 <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
                 <input class="spaceX" name="serviceName" type="text" placeholder="Service Name"/>
                 <select class="spaceX" name="domainId">
-                {{- range $domain := .AuthedUser.Domains}}
-                    {{- if not $domain.Disabled}}
-                        <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
-                    {{end -}}
-                {{end}}
+                    {{- range $domain := .AuthedUser.Domains}}
+                        {{- if not $domain.Disabled}}
+                            <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
+                        {{end -}}
+                    {{end}}
                 </select>
                 <button class="primary" type="submit">Create & Copy Alias</button>
             </form>
@@ -102,7 +102,7 @@
                                         <span>{{$alias.Alias}}@{{$alias.Domain.Domain}}</span>
                                         
                                         <div>
-                                            <form class="deleteForm" method="DELETE" id="aliasDisableForm">
+                                            <form class="deleteForm" method="PATCH" id="aliasDisableForm">
                                                 <input hidden name="aliasId" value="{{$alias.ID}}"/>
                                                 <button class="delete" type="submit">Delete</button>
                                             </form>
@@ -127,6 +127,10 @@
                                             <form class="deleteForm" method="DELETE" id="aliasEnableForm">
                                                 <input hidden name="aliasId" value="{{$alias.ID}}"/>
                                                 <button type="submit">Re-enable</button>
+                                            </form>
+                                            <form class="deleteForm" method="DELETE" id="aliasDeleteForm">
+                                                <input hidden name="aliasId" value="{{$alias.ID}}"/>
+                                                <button class="delete" type="submit">Delete</button>
                                             </form>
                                             <button class="primary" type="button" onclick="navigator.clipboard.writeText('{{$alias.Alias}}@{{$alias.Domain.Domain}}')">Copy</button>
                                         </div>
@@ -158,7 +162,7 @@
                                 <span>{{$domain.Domain}}</span>
                                 
                                 <div>
-                                    <form class="deleteForm" method="DELETE" id="domainDisableForm">
+                                    <form class="deleteForm" method="PATCH" id="domainDisableForm">
                                         <input hidden name="domainId" value="{{$domain.ID}}"/>
                                         <button class="delete" type="submit">Delete</button>
                                     </form>
@@ -174,9 +178,13 @@
                                 <span class="disabledAlias">{{$domain.Domain}}</span>
                                 
                                 <div>
-                                    <form class="deleteForm" method="DELETE" id="domainEnableForm">
+                                    <form class="deleteForm" method="PATCH" id="domainEnableForm">
                                         <input hidden name="domainId" value="{{$domain.ID}}"/>
                                         <button type="submit">Re-enable</button>
+                                    </form>
+                                    <form class="deleteForm" method="DELETE" id="domainDeleteForm">
+                                        <input hidden name="domainId" value="{{$domain.ID}}"/>
+                                        <button class="delete" type="submit">Delete</button>
                                     </form>
                                     <button class="primary" type="button" onclick="navigator.clipboard.writeText('{{$domain.Domain}}')">Copy</button>
                                 </div>

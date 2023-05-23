@@ -13,12 +13,14 @@ func Backend() {
 	http.HandleFunc("/api/v1/user/setup", setup.Post)
 
 	http.HandleFunc("/api/v1/user/aliases", middleware.MethodRouter(middleware.MethodMap{
-		Post:  middleware.AuthMiddleware(aliases.Post),
-		Patch: middleware.AuthMiddleware(aliases.Patch),
+		Post:   middleware.AuthMiddleware(aliases.Post),
+		Patch:  middleware.AuthMiddleware(aliases.Patch),
+		Delete: middleware.AuthMiddleware(aliases.Delete),
 	}))
 
 	http.HandleFunc("/api/v1/user/domains", middleware.MethodRouter(middleware.MethodMap{
-		Post:  middleware.AuthMiddleware(domains.Post),
-		Patch: middleware.AuthMiddleware(domains.Patch),
+		Post:   middleware.AuthMiddleware(domains.Post),
+		Patch:  middleware.AuthMiddleware(domains.Patch),
+		Delete: middleware.AuthMiddleware(domains.Delete),
 	}))
 }

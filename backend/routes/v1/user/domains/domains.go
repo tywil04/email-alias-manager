@@ -27,6 +27,14 @@ type PatchResponse struct {
 	ID string `json:"id"`
 }
 
+type DeleteRequest struct {
+	DomainID string `json:"domainId"`
+}
+
+type DeleteResponse struct {
+	ID string `json:"id"`
+}
+
 func Post(w http.ResponseWriter, r *http.Request) {
 	requestData := PostRequest{}
 	json.NewDecoder(r.Body).Decode(&requestData)
@@ -73,6 +81,32 @@ func Patch(w http.ResponseWriter, r *http.Request) {
 	db.DB.Model(&domain).Update("Disabled", requestData.Disabled)
 
 	response := PatchResponse{
+		ID: domain.ID.String(),
+	}
+	json.NewEncoder(w).Encode(&response)
+}
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	requestData := DeleteRequest{}
+	json.NewDecoder(r.Body).Decode(&requestData)
+
+	authedUser := r.Context().Value("authedUser").(db.User)
+
+	if requestData.DomainID == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	domainId, err := uuid.Parse(requestData.DomainID)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	domain := db.Domain{}
+	db.DB.Delete(&domain, db.Domain{ID: domainId, User: authedUser})
+
+	response := DeleteResponse{
 		ID: domain.ID.String(),
 	}
 	json.NewEncoder(w).Encode(&response)

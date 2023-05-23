@@ -3,13 +3,18 @@ package aliases
 import (
 	"bytes"
 	"encoding/json"
+	"image"
+	_ "image/gif"
+	_ "image/jpeg"
+	"image/png"
 	"io"
 	"net/http"
 
+	"github.com/disintegration/imaging"
+	"github.com/google/uuid"
+
 	"EmailAliasManager/sharedlib/cryptography"
 	"EmailAliasManager/sharedlib/db"
-
-	"github.com/google/uuid"
 )
 
 type PostRequest struct {
@@ -28,6 +33,14 @@ type PatchRequest struct {
 }
 
 type PatchResponse struct {
+	ID string `json:"id"`
+}
+
+type DeleteRequest struct {
+	AliasID string `json:"aliasId"`
+}
+
+type DeleteResponse struct {
 	ID string `json:"id"`
 }
 
@@ -73,7 +86,17 @@ func Post(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		rawImage := buffer.Bytes()
+		img, _, err := image.Decode(buffer)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		resizedImg := imaging.Resize(img, 64, 64, imaging.Lanczos)
+		var resizedImgBuffer *bytes.Buffer = new(bytes.Buffer)
+
+		png.Encode(resizedImgBuffer, resizedImg)
+
+		rawImage := resizedImgBuffer.Bytes()
 		mimeType := http.DetectContentType(rawImage)
 
 		alias.IconMimeType = mimeType
@@ -112,6 +135,32 @@ func Patch(w http.ResponseWriter, r *http.Request) {
 	db.DB.Model(&alias).Update("Disabled", requestData.Disabled)
 
 	response := PatchResponse{
+		ID: alias.ID.String(),
+	}
+	json.NewEncoder(w).Encode(&response)
+}
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	requestData := DeleteRequest{}
+	json.NewDecoder(r.Body).Decode(&requestData)
+
+	authedUser := r.Context().Value("authedUser").(db.User)
+
+	if requestData.AliasID == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	aliasId, err := uuid.Parse(requestData.AliasID)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	alias := db.Alias{}
+	db.DB.Delete(&alias, db.Alias{ID: aliasId, User: authedUser})
+
+	response := DeleteResponse{
 		ID: alias.ID.String(),
 	}
 	json.NewEncoder(w).Encode(&response)

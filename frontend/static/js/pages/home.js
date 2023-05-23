@@ -96,6 +96,54 @@ async function domainFormSubmit(event, form) {
     }
 }
 
+async function aliasDeleteFormSubmit(event, form) {
+    event.preventDefault()
+
+    const formData = new FormData(form)
+    const aliasId = formData.get("aliasId")
+
+    const payload = JSON.stringify({aliasId: aliasId})
+
+    const response = await fetch("/api/v1/user/aliases", {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: payload,
+    })
+
+    if (response.status === 200) {
+        form.reset()
+        window.location.reload()
+    } else {
+        console.log("Error!")
+    }
+}
+
+async function domainDeleteFormSubmit(event, form) {
+    event.preventDefault()
+
+    const formData = new FormData(form)
+    const domainId = formData.get("domainId")
+
+    const payload = JSON.stringify({domainId: domainId})
+
+    const response = await fetch("/api/v1/user/domains", {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: payload,
+    })
+
+    if (response.status === 200) {
+        form.reset()
+        window.location.reload()
+    } else {
+        console.log("Error!")
+    }
+}
+
 async function aliasDisableFormSubmit(event, form) {
     event.preventDefault()
 
@@ -200,6 +248,8 @@ const aliasDisableForms = document.querySelectorAll("#aliasDisableForm")
 const domainDisableForms = document.querySelectorAll("#domainDisableForm")
 const aliasEnableForms = document.querySelectorAll("#aliasEnableForm")
 const domainEnableForms = document.querySelectorAll("#domainEnableForm")
+const aliasDeleteForms = document.querySelectorAll("#aliasDeleteForm")
+const domainDeleteForms = document.querySelectorAll("#domainDeleteForm")
 
 logoutForm.addEventListener("submit", logoutFormSubmit)
 aliasForm.addEventListener("submit", (event) => aliasFormSubmit(event, aliasForm))
@@ -220,6 +270,14 @@ for (let form of aliasEnableForms) {
 
 for (let form of domainEnableForms) {
     form.addEventListener("submit", (event) => domainEnableFormSubmit(event, form))
+}
+
+for (let form of aliasDeleteForms) {
+    form.addEventListener("submit", (event) => aliasDeleteFormSubmit(event, form))
+}
+
+for (let form of domainDeleteForms) {
+    form.addEventListener("submit", (event) => domainDeleteFormSubmit(event, form))
 }
 
 // other 
