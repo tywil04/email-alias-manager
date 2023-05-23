@@ -77,7 +77,7 @@ nav div.inner {
     flex-grow: 1;
 }
 
-button {
+button, a[role=button] {
     background-color: var(--inputBackgroundColour);
     color: var(--inputTextColour);
     border: 1px solid var(--inputBorderColour);
@@ -86,24 +86,22 @@ button {
     cursor: pointer;
     transition-duration: var(--animationDuration);
     width: fit-content;
+    text-decoration: none !important;
+    font-weight: 400;
+    text-align: center;
 }
 
-a {
-    color: var(--primaryColour);
-    line-height: 26px;
-}
-
-button:hover:not(:active), a:hover:not(:active) {
+button:hover:not(:active), a[role=button]:hover:not(:active) {
     filter: brightness(0.9);
 }
 
-button.primary {
+button.primary, a[role=button].primary {
     background-color: var(--primaryColour);
     color: var(--inputTextColour);
     border: 1px solid var(--primaryColour);
 }
 
-button.delete {
+button.delete, a[role=button].delete {
     background-color: var(--deleteColour);
     color: var(--inputTextColour);
     border: 1px solid var(--deleteColour);
@@ -272,4 +270,15 @@ label.switch:has(> input:checked)::before {
 .aliasImage {
     margin-top: 3px;
     border-radius: 100%;
+}
+
+.buttonRow {
+    display: flex;
+    flex-direction: row;
+    gap: var(--paddingX);
+}
+
+.buttonRow * {
+    flex-basis: 0 !important;
+    flex-grow: 1 !important;
 }
