@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"EmailAliasManager/sharedlib/cryptography"
-	"EmailAliasManager/sharedlib/db"
+	"EmailAliasManager/lib/cryptography"
+	"EmailAliasManager/lib/db"
 )
 
 func AuthMiddleware(next func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {

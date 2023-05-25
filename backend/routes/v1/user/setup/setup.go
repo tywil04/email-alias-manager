@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"EmailAliasManager/sharedlib/cryptography"
-	"EmailAliasManager/sharedlib/db"
+	"EmailAliasManager/lib/cryptography"
+	"EmailAliasManager/lib/db"
 )
 
 type PostRequest struct {

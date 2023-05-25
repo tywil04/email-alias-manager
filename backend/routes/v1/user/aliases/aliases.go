@@ -13,8 +13,8 @@ import (
 	"github.com/disintegration/imaging"
 	"github.com/google/uuid"
 
-	"EmailAliasManager/sharedlib/cryptography"
-	"EmailAliasManager/sharedlib/db"
+	"EmailAliasManager/lib/cryptography"
+	"EmailAliasManager/lib/db"
 )
 
 type PostRequest struct {

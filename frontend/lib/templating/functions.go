@@ -8,8 +8,8 @@ import (
 	"log"
 	"net/http"
 
-	"EmailAliasManager/sharedlib/cryptography"
-	"EmailAliasManager/sharedlib/db"
+	"EmailAliasManager/lib/cryptography"
+	"EmailAliasManager/lib/db"
 )
 
 type PageData struct {

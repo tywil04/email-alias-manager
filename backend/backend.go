@@ -6,7 +6,7 @@ import (
 	"EmailAliasManager/backend/routes/v1/user/aliases"
 	"EmailAliasManager/backend/routes/v1/user/domains"
 	"EmailAliasManager/backend/routes/v1/user/setup"
-	"EmailAliasManager/sharedlib/middleware"
+	"EmailAliasManager/lib/middleware"
 )
 
 func Backend() {

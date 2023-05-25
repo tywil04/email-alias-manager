@@ -11,7 +11,7 @@ import (
 
 	"EmailAliasManager/backend"
 	"EmailAliasManager/frontend"
-	"EmailAliasManager/sharedlib/db"
+	"EmailAliasManager/lib/db"
 
 	"github.com/joho/godotenv"
 )

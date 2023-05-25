@@ -8,7 +8,7 @@ import (
 	"EmailAliasManager/frontend/lib/httpfs"
 	"EmailAliasManager/frontend/lib/redirect"
 	"EmailAliasManager/frontend/lib/templating"
-	"EmailAliasManager/sharedlib/middleware"
+	"EmailAliasManager/lib/middleware"
 )
 
 //go:embed all:templates
