@@ -7,6 +7,12 @@ async function formSubmit(event, form) {
     const formData = new FormData(form)
     const username = formData.get("username")
     const password = formData.get("password")
+    const passwordConfirm = formData.get("passwordConfirm")
+
+    if (password !== passwordConfirm) {
+        console.log("Error!")
+        return
+    }
 
     const token = await cryptography.generateToken(username, password)
 

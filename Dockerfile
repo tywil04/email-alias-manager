@@ -1,5 +1,6 @@
 FROM golang:alpine
 WORKDIR /EmailAliasManager/
 COPY . ./
-RUN go build ./server.go
+RUN apk add build-base
+RUN CGO_ENABLED=1 go build ./server.go
 CMD ["/EmailAliasManager/server"]
