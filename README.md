@@ -6,3 +6,8 @@ This can be deployed using Docker, this is how I use it. You will need to build 
 
 ## Screenshot
 ![Demo Screenshot](screenshot.png)
+
+## Environment Variables
+- `CRYPTO_PEPPER`: a random string added to all operations, its like a salt but global to the whole database
+- `SQLITE_DATABASE_PATH": the path for the sqlite database path
+- `SERVER_ADDRESS`: the address of the server, by default its `:4041` but can be anything.
