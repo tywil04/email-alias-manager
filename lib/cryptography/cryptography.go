@@ -14,7 +14,7 @@ var (
 	argon2IdHashPasses    uint32 = 3
 	argon2IdHashMemory    uint32 = 64 * 1024
 	argon2IdHashThreads   uint8  = 4
-	argon2IdHashKeyLength uint32 = 32 // AES-256 needs 32-byte key
+	argon2IdHashKeyLength uint32 = 128 // 1024 bit key like the js client
 )
 
 func Argon2Id(password string, optionalSalt ...[]byte) ([]byte, []byte) {
