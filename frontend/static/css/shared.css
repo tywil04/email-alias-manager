@@ -282,3 +282,7 @@ label.switch:has(> input:checked)::before {
     flex-basis: 0 !important;
     flex-grow: 1 !important;
 }
+
+.widthFit {
+    width: fit-content;
+}

@@ -20,7 +20,7 @@
                 </form>
             </div>
         </nav>
-        <main class="flexColumn">
+        <main class="flexColumn widthFit">
             <h1>Create a New Alias</h1>
             <form class="flexRow largeSpaceY" id="aliasForm" method="POST">
                 <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
@@ -32,7 +32,7 @@
                         {{end -}}
                     {{end}}
                 </select>
-                <button class="primary" type="submit">Create & Copy Alias</button>
+                <button class="primary" type="submit">Create&nbsp;&&nbsp;Copy&nbsp;Alias</button>
             </form>
 
             <h1>Add an Existing Alias</h1>
@@ -46,13 +46,13 @@
                         {{end -}}
                     {{end}}
                 </select>
-                <button class="primary" type="submit">Add Existing Alias</button>
+                <button class="primary" type="submit">Add&nbsp;Existing&nbsp;Alias</button>
             </form>
 
             <h1>Add a New Domain</h1>
             <form class="flexRow largeSpaceY" id="domainForm" method="POST">
                 <input class="spaceX" name="domain" type="text" placeholder="Domain"/>
-                <button class="primary" type="submit">Add New Domain</button>
+                <button class="primary" type="submit">Add&nbsp;New&nbsp;Domain</button>
             </form>
 
             {{- $queryData := .QueryData}}
