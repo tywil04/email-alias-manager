@@ -129,34 +129,35 @@ const domainEnableForms = document.querySelectorAll("#domainEnableForm")
 const aliasDeleteForms = document.querySelectorAll("#aliasDeleteForm")
 const domainDeleteForms = document.querySelectorAll("#domainDeleteForm")
 
-logoutForm.addEventListener("submit", logoutFormSubmit)
-aliasForm.addEventListener("submit", (event) => aliasFormSubmit(event, aliasForm))
-existingAliasForm.addEventListener("submit", (event) => existingAliasFormSubmit(event, existingAliasForm))
-domainForm.addEventListener("submit", (event) => domainFormSubmit(event, domainForm))
+if (aliasForm !== null)
+    aliasForm.addEventListener("submit", (event) => aliasFormSubmit(event, aliasForm))
 
-for (let form of aliasDisableForms) {
+if (existingAliasForm !== null)
+    existingAliasForm.addEventListener("submit", (event) => existingAliasFormSubmit(event, existingAliasForm))
+
+if (logoutForm !== null)
+    logoutForm.addEventListener("submit", logoutFormSubmit)
+
+if (domainForm !== null)
+    domainForm.addEventListener("submit", (event) => domainFormSubmit(event, domainForm))
+
+for (let form of aliasDisableForms)
     form.addEventListener("submit", (event) => aliasDisableFormSubmit(event, form))
-}
 
-for (let form of domainDisableForms) {
+for (let form of domainDisableForms)
     form.addEventListener("submit", (event) => domainDisableFormSubmit(event, form))
-}
 
-for (let form of aliasEnableForms) {
+for (let form of aliasEnableForms)
     form.addEventListener("submit", (event) => aliasEnableFormSubmit(event, form))
-}
 
-for (let form of domainEnableForms) {
+for (let form of domainEnableForms)
     form.addEventListener("submit", (event) => domainEnableFormSubmit(event, form))
-}
 
-for (let form of aliasDeleteForms) {
+for (let form of aliasDeleteForms)
     form.addEventListener("submit", (event) => aliasDeleteFormSubmit(event, form))
-}
 
-for (let form of domainDeleteForms) {
+for (let form of domainDeleteForms)
     form.addEventListener("submit", (event) => domainDeleteFormSubmit(event, form))
-}
 
 
 // other 

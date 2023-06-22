@@ -22,33 +22,35 @@
         </nav>
         <div class="flexRow justifyCentre">
             <main class="flexColumn widthFit">
-                <h1>Create a New Alias</h1>
-                <form class="flexRow largeSpaceY" id="aliasForm" method="POST">
-                    <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
-                    <input class="spaceX" name="serviceName" type="text" placeholder="Service Name"/>
-                    <select class="spaceX" name="domainId">
-                        {{- range $domain := .AuthedUser.Domains}}
-                            {{- if not $domain.Disabled}}
-                                <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
-                            {{end -}}
-                        {{end}}
-                    </select>
-                    <button class="primary" type="submit">Create&nbsp;&&nbsp;Copy&nbsp;Alias</button>
-                </form>
+                {{if ne (len .AuthedUser.Domains) 0}}
+                    <h1>Create a New Alias</h1>
+                    <form class="flexRow largeSpaceY" id="aliasForm" method="POST">
+                        <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
+                        <input class="spaceX" name="serviceName" type="text" placeholder="Service Name"/>
+                        <select class="spaceX" name="domainId">
+                            {{- range $domain := .AuthedUser.Domains}}
+                                {{- if not $domain.Disabled}}
+                                    <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
+                                {{end -}}
+                            {{end}}
+                        </select>
+                        <button class="primary" type="submit">Create&nbsp;&&nbsp;Copy&nbsp;Alias</button>
+                    </form>
 
-                <h1>Add an Existing Alias</h1>
-                <form class="flexRow largeSpaceY" id="existingAliasForm" method="POST">
-                    <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
-                    <input class="spaceX" name="alias" type="text" placeholder="Existing Alias"/>
-                    <select class="spaceX" name="domainInfo">
-                        {{- range $domain := .AuthedUser.Domains}}
-                            {{- if not $domain.Disabled}}
-                                <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
-                            {{end -}}
-                        {{end}}
-                    </select>
-                    <button class="primary" type="submit">Add&nbsp;Existing&nbsp;Alias</button>
-                </form>
+                    <h1>Add an Existing Alias</h1>
+                    <form class="flexRow largeSpaceY" id="existingAliasForm" method="POST">
+                        <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
+                        <input class="spaceX" name="alias" type="text" placeholder="Existing Alias"/>
+                        <select class="spaceX" name="domainInfo">
+                            {{- range $domain := .AuthedUser.Domains}}
+                                {{- if not $domain.Disabled}}
+                                    <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>
+                                {{end -}}
+                            {{end}}
+                        </select>
+                        <button class="primary" type="submit">Add&nbsp;Existing&nbsp;Alias</button>
+                    </form>
+                {{end}}
 
                 <h1>Add a New Domain</h1>
                 <form class="flexRow largeSpaceY" id="domainForm" method="POST">
