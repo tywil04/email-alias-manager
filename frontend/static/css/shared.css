@@ -286,3 +286,7 @@ label.switch:has(> input:checked)::before {
 .widthFit {
     width: fit-content;
 }
+
+.justifyCentre {
+    justify-content: center;
+}
