@@ -1,6 +1,7 @@
 import * as cryptography from "/static/js/lib/cryptography.js"
 import * as cookie from "/static/js/lib/cookie.js"
-
+import * as api from "/static/js/lib/api.js"
+import * as helpers from "/static/js/lib/helpers.js"
 
 // forms
 async function logoutFormSubmit(event) {
@@ -13,231 +14,108 @@ async function logoutFormSubmit(event) {
 
 async function aliasFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const serviceName = formData.get("serviceName")
-    const iconUrl = formData.get("iconUrl")
-    const domainIdAndDomain = formData.get("domainId")
-    const domainParts = domainIdAndDomain.split("//")
-    const domainId = domainParts[0]
-    const domain = domainParts[1]
-
+    const [domainId, domain] = formData.domainInfo.split("//")
     const randomCode = cryptography.randomHex(8)
-    const alias = serviceName + "." + randomCode
+    const alias = formData.serviceName + "." + randomCode
 
-    const payload = JSON.stringify({domainId: domainId, alias: alias, iconUrl: iconUrl})
+    const error = await api.newAlias(domainId, alias, formData.iconUrl)
+    if (error !== null) return console.log(error)
 
-    const response = await fetch("/api/v1/user/aliases", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        await navigator.clipboard.writeText(alias + "@" + domain)
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    await navigator.clipboard.writeText(alias + "@" + domain)
+    form.reset()
+    window.location.reload()
 }
 
 async function existingAliasFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const alias = formData.get("alias")
-    const iconUrl = formData.get("iconUrl")
-    const domainIdAndDomain = formData.get("domainId")
-    const domainParts = domainIdAndDomain.split("//")
-    const domainId = domainParts[0]
+    const [domainId, _] = formData.domainInfo.split("//")
 
-    const payload = JSON.stringify({domainId: domainId, alias: alias, iconUrl: iconUrl})
+    const error = await api.newAlias(domainId, formData.alias, formData.iconUrl)
+    if (error !== null) return console.log(error)
 
-    const response = await fetch("/api/v1/user/aliases", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function domainFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const domain = formData.get("domain")
+    const error = await api.newDomain(formData.domain)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({domain: domain})
-
-    const response = await fetch("/api/v1/user/domains", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function aliasDeleteFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const aliasId = formData.get("aliasId")
+    const error = await api.deleteAlias(formData.aliasId)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({aliasId: aliasId})
-
-    const response = await fetch("/api/v1/user/aliases", {
-        method: "DELETE",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function domainDeleteFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const domainId = formData.get("domainId")
+    const error = await api.deleteDomain(formData.domainId)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({domainId: domainId})
-
-    const response = await fetch("/api/v1/user/domains", {
-        method: "DELETE",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function aliasDisableFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const aliasId = formData.get("aliasId")
+    const error = await api.updateAliasDisabledStatus(formData.aliasId, true)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({aliasId: aliasId, disabled: true})
-
-    const response = await fetch("/api/v1/user/aliases", {
-        method: "PATCH",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function domainDisableFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const domainId = formData.get("domainId")
+    const error = await api.updateDomainDisabledStatus(formData.domainId, true)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({domainId: domainId, disabled: true})
-
-    const response = await fetch("/api/v1/user/domains", {
-        method: "PATCH",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function aliasEnableFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const aliasId = formData.get("aliasId")
+    const error = await api.updateAliasDisabledStatus(formData.aliasId, false)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({aliasId: aliasId, disabled: false})
-
-    const response = await fetch("/api/v1/user/aliases", {
-        method: "PATCH",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 async function domainEnableFormSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const domainId = formData.get("domainId")
+    const error = await api.updateDomainDisabledStatus(formData.domainId, false)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({domainId: domainId, disabled: false})
-
-    const response = await fetch("/api/v1/user/domains", {
-        method: "PATCH",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-
-    if (response.status === 200) {
-        form.reset()
-        window.location.reload()
-    } else {
-        console.log("Error!")
-    }
+    form.reset()
+    window.location.reload()
 }
 
 const logoutForm = document.getElementById("logoutForm")
@@ -279,6 +157,7 @@ for (let form of aliasDeleteForms) {
 for (let form of domainDeleteForms) {
     form.addEventListener("submit", (event) => domainDeleteFormSubmit(event, form))
 }
+
 
 // other 
 function togglePageParam(bool, flag) {
