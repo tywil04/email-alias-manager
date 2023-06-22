@@ -198,3 +198,7 @@ if (pageParams.includes(showDisabledAliasesParam)) {
 
 showDisabledDomainsFormToggle.addEventListener("change", (event) => togglePageParam(event.target.checked, showDisabledDomainsParam))
 showDisabledAliasesFormToggle.addEventListener("change", (event) => togglePageParam(event.target.checked, showDisabledAliasesParam))
+
+
+// start cookie monitoring 
+cookie.monitorTokenForExpiry()
