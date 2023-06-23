@@ -1,14 +1,15 @@
 import * as cryptography from "/static/js/lib/cryptography.js"
 import * as cookie from "/static/js/lib/cookie.js"
+import * as helpers from "/static/js/lib/helpers.js"
 
 async function formSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const username = formData.get("username")
-    const password = formData.get("password")
-
-    const token = await cryptography.generateToken(username, password)
+    const token = await cryptography.generateToken(
+        formData,username, 
+        formData.password
+    )
     
     cookie.setTokenCookie(token)
 

@@ -1,38 +1,26 @@
 import * as cryptography from "/static/js/lib/cryptography.js"
 import * as cookie from "/static/js/lib/cookie.js"
+import * as api from "/static/js/lib/api.js"
+import * as helpers from "/static/js/lib/helpers.js"
 
 async function formSubmit(event, form) {
     event.preventDefault()
+    const formData = helpers.processForm(form)
 
-    const formData = new FormData(form)
-    const username = formData.get("username")
-    const password = formData.get("password")
-    const passwordConfirm = formData.get("passwordConfirm")
+    if (formData.password !== formData.passwordConfirm) 
+        return console.log("error: passwords dont match")
 
-    if (password !== passwordConfirm) {
-        console.log("Error!")
-        return
-    }
+    const token = await cryptography.generateToken(
+        formData,username, 
+        formData.password
+    )
 
-    const token = await cryptography.generateToken(username, password)
+    const error = await api.setup(token)
+    if (error !== null) return console.log(error)
 
-    const payload = JSON.stringify({token: token})
-
-    const response = await fetch("/api/v1/user/setup", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: payload,
-    })
-    
-    if (response.status === 200) {
-        cookie.setTokenCookie(token)
-        form.reset()
-        window.location = "/home"
-    } else {
-        console.log("Error!")
-    }
+    cookie.setTokenCookie(token)
+    form.reset()
+    window.location = "/home"
 }
 
 let form = document.getElementById("form")

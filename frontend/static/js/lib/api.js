@@ -85,3 +85,15 @@ export async function updateDomainDisabledStatus(domainId, disabled=false) {
 
     return err
 }
+
+
+// setup
+export async function setup(token) {
+    if (isEmpty(token)) return "error: token is empty"
+
+    const [_, err] = await jsonRequest("POST", "/api/v1/user/setup", JSON.stringify({
+        token: token
+    }))
+
+    return err
+}
