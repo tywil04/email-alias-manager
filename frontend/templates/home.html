@@ -15,9 +15,12 @@
         <nav class="flexRow">
             <div class="inner flexRow">
                 <b class="marginRightAuto">Email Aliases</b>
-                <form class="marginLeftAuto" id="logoutForm">
-                    <button class="delete" type="submit">Logout</button>
-                </form>
+                <div class="marginLeftAuto flexRow">
+                    <a class="spaceX" role="button" href="/importexport">Import/Export</a>
+                    <form id="logoutForm">
+                        <button class="delete" type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
         </nav>
         <div class="flexRow justifyCentre">
@@ -27,7 +30,7 @@
                     <form class="flexRow largeSpaceY" id="aliasForm" method="POST">
                         <input class="spaceX" name="iconUrl" type="url" placeholder="Icon Url"/>
                         <input class="spaceX" name="serviceName" type="text" placeholder="Service Name"/>
-                        <select class="spaceX" name="domainId">
+                        <select class="spaceX" name="domainInfo">
                             {{- range $domain := .AuthedUser.Domains}}
                                 {{- if not $domain.Disabled}}
                                     <option value="{{$domain.ID}}//{{$domain.Domain}}">{{$domain.Domain}}</option>

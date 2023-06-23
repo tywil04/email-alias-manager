@@ -1,6 +1,6 @@
 import * as cryptography from "/static/js/lib/cryptography.js"
 
-const expiryDurationInMins = 1 // 30 mins
+const expiryDurationInMins = 30
 let cookieExists = null
 
 // helpers
@@ -32,7 +32,7 @@ export function clearTokenCookie() {
 
 export function monitorTokenForExpiry() {
     setInterval(async () => {
-        if (cookieExists !== cryptography.hashText(readCookie("token"))) {
+        if (cookieExists != cryptography.hashText(readCookie("token"))) {
             window.location.reload()
         }
     }, 60000)

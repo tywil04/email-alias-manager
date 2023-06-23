@@ -78,6 +78,7 @@ nav div.inner {
 }
 
 button, a[role=button] {
+    font-family: var(--font);
     background-color: var(--inputBackgroundColour);
     color: var(--inputTextColour);
     border: 1px solid var(--inputBorderColour);

@@ -105,7 +105,7 @@ func Post(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db.DB.Create(&alias)
-	db.DB.Model(&authedUser).Association("Aliases").Append([]db.Alias{alias})
+	// db.DB.Model(&authedUser).Association("Aliases").Append([]db.Alias{alias})
 
 	response := PostResponse{
 		ID: alias.ID.String(),
