@@ -11,7 +11,7 @@ async function formSubmit(event, form) {
         return console.log("error: passwords dont match")
 
     const token = await cryptography.generateToken(
-        formData,username, 
+        formData.username, 
         formData.password
     )
 

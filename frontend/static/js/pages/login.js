@@ -7,7 +7,7 @@ async function formSubmit(event, form) {
     const formData = helpers.processForm(form)
 
     const token = await cryptography.generateToken(
-        formData,username, 
+        formData.username, 
         formData.password
     )
     
