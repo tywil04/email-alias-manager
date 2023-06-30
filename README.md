@@ -25,5 +25,20 @@ Heres an example `docker run` command:
 docker run --name email-alias-manager -p 4041:4041 -v /somepath/database.db:/database.db -e CRYPTO_PEPPER="totallyrandom" ghcr.io/tywil04/email-alias-manager
 ```
 
+## Building
+To build the go application without docker you need to have Go(lang) installed. Once installed run the following commands:
+```
+git clone https://github.com/tywil04/email-alias-manager
+cd email-alias-manager
+go build server.go
+```
+
+To build a docker image you will need to have docker installed. Once installed run the following commands:
+```
+git clone https://github.com/tywil04/email-alias-manager
+cd email-alias-manager
+docker build . -t email-alias-manager:latest
+```
+
 ## Screenshot
 ![Demo Screenshot](screenshot.png)
